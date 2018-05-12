@@ -82,6 +82,10 @@
       <ul class="nav">
         <li><%= link_to "Users", users_path %></li>
         <li><%= link_to "Slow Actions", slow_actions_path %></li>
+        <li><%= link_to "Access Denied", root_path(note_type: "Denied") %></li>
+        <li><%= link_to "Rack::Attack", root_path(note_type: "RackAttack") %></li>
+        <li><%= link_to "Authentification", root_path(note_type: "Authentification") %></li>
+        <li><%= link_to "advanGO", root_path(note_type: "advanGO") %></li>
       </ul>
       <form method="get" action="<%= root_path %>">
         <!-- <%= select_tag :user_type, options_for_select([["User", "User"]]) %> -->
