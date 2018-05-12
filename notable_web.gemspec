@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "notable"
+  #spec.add_dependency "notable"
   spec.add_dependency "groupdate"
   spec.add_dependency "chartkick"
   spec.add_dependency "kaminari"
