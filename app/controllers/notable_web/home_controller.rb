@@ -5,6 +5,7 @@ module NotableWeb
     protect_from_forgery with: :exception
 
     http_basic_authenticate_with name: ENV["NOTABLE_USERNAME"], password: ENV["NOTABLE_PASSWORD"] if ENV["NOTABLE_PASSWORD"]
+    before_action :set_apartment
 
     def index
       where = params.slice(:status, :note_type, :note, :user_id, :user_type).permit!.to_h
@@ -69,5 +70,8 @@ module NotableWeb
       Notable::Request.where("action IS NOT NULL AND (status = 503 OR note_type = 'Slow Request')")
     end
 
+    def set_apartment
+      Apartment::Database.switch('public')
+    end
   end
 end

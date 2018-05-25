@@ -4,3 +4,4 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'notable', git: 'https://github.com/z4ppy/notable.git'
+gem 'apartment'
