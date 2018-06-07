@@ -5,12 +5,14 @@
     <thead>
       <tr>
         <th>Errors</th>
-        <th style="width: 15%; text-align: right;">Users</th>
-        <th style="width: 15%; text-align: right;">Count</th>
+        <th style="width: 10%; text-align: right;">Users</th>
+        <th style="width: 10%; text-align: right;">Count</th>
+        <th style="width: 10%; text-align: right;">First seen</th>
+        <th style="width: 10%; text-align: right;">Last seen</th>
       </tr>
     </thead>
     <tbody>
-      <% Notable::Request.select("note, action, COUNT(DISTINCT (user_type || user_id)) as count_user, COUNT(*) as count_all").where(note_type: params[:note_type]).group([:note, :action]).order("count_all desc").each do |agg| %>
+      <% Notable::Request.select("note, action, min(created_at) as start_at, max(created_at) as end_at, COUNT(DISTINCT (user_type || user_id)) as count_user, COUNT(*) as count_all").where(note_type: params[:note_type]).group([:note, :action]).order("count_all desc").each do |agg| %>
         <tr>
           <td>
             <%= agg.note %> <span style="color: #999;"><%= agg.action %></span>
@@ -18,6 +20,8 @@
           </td>
           <td style="text-align: right;"><%= agg.count_user %></td>
           <td style="text-align: right;"><%= agg.count_all %></td>
+          <td style="text-align: right;"><%= agg.start_at.in_time_zone(NotableWeb.time_zone).strftime("#{agg.start_at < 24.hours.ago ? "%F " : nil}%R") %></td>
+          <td style="text-align: right;"><%= agg.end_at.in_time_zone(NotableWeb.time_zone).strftime("#{agg.end_at < 24.hours.ago ? "%F " : nil}%R") %></td>
         </tr>
       <% end %>
     </tbody>
